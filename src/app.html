@@ -1,0 +1,27 @@
+<template>
+  <h1>${heading}</h1>
+  <!--to actually add a todo, add the submit event, and append .trigger.  in aurelia .trigger can be added to any DOM event.-->
+  <!--by adding .trigger, anytime the form is submitted by clicking enter or hitting enter invokes addTodo from app.js-->
+  <form submit.trigger="addTodo()">
+    <!-- binding commands: take any html or svg attribute, and apend .bind method to setup databinding on the attribute. value is the attribute.-->
+    <!-- .bind knows when to do two-way or one-way data binding. you can also be explicit: value.one-way, or value.two-way, or value.one-time which grabs initial value one time and display it-->
+    <input type="text" value.bind="todoDescription">
+    <button type="submit">Add Todo</button>
+  </form>
+
+  <!-- render our list -->
+  <ul>
+    <!-- report.for is a construct in Aurelia that repeats over a collection, eg map, array, or set. similar as for of loop in es2015-->
+    <li repeat.for="todo of todos">
+      <!--binding checked attribute to todo's done property, so we can toggle if todo is done. reference todo.js-->
+      <input type="checkbox" checked.bind="todo.done">
+      <!-- can use interpolation inside of any attribute. if done, line through, if not done no style-->
+      <span css="text-decoration: ${todo.done ? 'line-through' : 'none'}">
+        ${todo.description}
+      </span>
+      <!-- remember can trigger any event with .trigger -->
+      <!-- .trigger invokes removeTodo(todo) from app.js -->
+      <button click.trigger="removeTodo(todo)">Remove Todo</button>
+    </li>
+  </ul>
+</template>
